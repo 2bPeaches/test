@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { HiOutlineUserGroup } from "react-icons/hi2";
 import { SiGoogleclassroom, SiStaffbase } from "react-icons/si";
 import { IoIosFitness } from "react-icons/io";
-import { CountClasses, CountMembers, CountStaffs } from "../../../service/https";
+import { CountClasses, CountMembers,CountEquipments, CountStaffs } from "../../../service/https";
 
 // StatCard component
 interface StatCardProps {
@@ -24,19 +24,21 @@ const StatCard: React.FC<StatCardProps> = ({ count, Icon, label, rotateIcon }) =
 );
 
 const Stat: React.FC = () => {
-    const [counts, setCounts] = useState<{ classCount: number | null; memberCount: number | null; staffCount: number | null }>({
+    const [counts, setCounts] = useState<{ classCount: number | null; memberCount: number | null; equipmentCount: number | null; staffCount: number | null }>({
         classCount: null,
         memberCount: null,
         staffCount: null,
+        equipmentCount: null,
     });
 
     useEffect(() => {
         const fetchCounts = async () => {
-            const [classData, memberData, staffData] = await Promise.all([CountClasses(), CountMembers(), CountStaffs()]);
+            const [classData, memberData, staffData,equipmentData] = await Promise.all([CountClasses(), CountMembers(), CountStaffs(), CountEquipments()]);
             setCounts({
                 classCount: classData?.count ?? null,
                 memberCount: memberData?.count ?? null,
                 staffCount: staffData?.count ?? null,
+                equipmentCount: equipmentData?.count ?? null,
             });
         };
 
@@ -52,7 +54,7 @@ const Stat: React.FC = () => {
                     label="Member"
                 />
                 <StatCard count={counts.classCount ? counts.classCount.toString() : "Loading..."} Icon={SiGoogleclassroom} label="Class" />
-                <StatCard count="93.9k" Icon={IoIosFitness} label="Equipments" rotateIcon="-rotate-45" />
+                <StatCard count={counts.equipmentCount ? counts.equipmentCount.toString() : "Loading..."} Icon={IoIosFitness} label="Equipments" rotateIcon="-rotate-45" />
                 <StatCard
                     count={counts.classCount ? counts.classCount.toString() : "Loading..."}
                     Icon={SiStaffbase}

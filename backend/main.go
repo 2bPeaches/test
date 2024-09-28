@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"example.com/pj2/config"
-	"example.com/pj2/controller"
+	"backend/config"
+	"backend/controller"
 )
 
 const PORT = "8000"
@@ -73,6 +73,20 @@ func main() {
 		router.POST("/bookings", controller.CreateBooking)
 		router.PATCH("/bookings", controller.UpdateBooking)
 		router.DELETE("/bookings/:id", controller.DeleteBooking)
+
+		// Equipment Routes
+		router.GET("/equipments", controller.ListEquipments)
+		router.GET("/equipment/:id", controller.GetEquipment)
+		router.POST("/equipments", controller.CreateEquipment)
+		router.PATCH("/equipments", controller.UpdateEquipment)
+		router.DELETE("/equipments/:id", controller.DeleteEquipment)
+		router.GET("/equipments/count", controller.CountEquipments)
+		// Booking equip
+		router.GET("/bookingequipments", controller.ListBookingEquipments)
+		router.GET("/bookingequipment/:id", controller.GetBookingEquipment)
+		router.POST("/bookingequipments", controller.CreateBookingEquipment)
+		router.PATCH("/bookingequipments", controller.UpdateBookingDquipment)
+		router.DELETE("/bookingequipments/:id", controller.DeleteBookingDquipment)
 
 		// Package Routes
 		router.GET("/packages", controller.ListPackage)

@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"example.com/pj2/config"
-	"example.com/pj2/entity"
+	"backend/config"
+	"backend/entity"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

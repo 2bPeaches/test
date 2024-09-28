@@ -1,4 +1,4 @@
-import { PackageInterface } from "../../../interfaces/IPackage";
+import { PackageInterface } from "../../../interface/IPackage";
 
 const apiUrl = "http://localhost:3036";
 

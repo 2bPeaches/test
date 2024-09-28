@@ -1,6 +1,6 @@
 // components/ConfirmModal.tsx
 import React from "react";
-import Modal from "../../../../components/Equipp/equip/CreateClass/Modal";
+import Modal from "../../../../components/admin/equip/CreateClass/Modal";
 
 interface ConfirmModalProps {
     visible: boolean;

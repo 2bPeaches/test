@@ -1,4 +1,4 @@
-import { CreditCardInterface } from "../../../interfaces/ICreditcard";
+import { CreditCardInterface } from "../../../interface/ICreditcard";
 
 const apiUrl = "http://localhost:3036";
 

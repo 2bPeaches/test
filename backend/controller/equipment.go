@@ -3,10 +3,9 @@ package controller
 import (
 	"log"
 	"net/http"
-	"time"
 
-	"example.com/pj2/config"
-	"example.com/pj2/entity"
+	"backend/config"
+	"backend/entity"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -58,7 +57,7 @@ func CreateEquipment(c *gin.Context) {
 // GET /equipment/:id
 func GetEquipment(c *gin.Context) {
 	ID := c.Param("id")
-	var equipment entity.Class // Assuming you want to use the same structure
+	var equipment entity.Equipment // Assuming you want to use the same structure
 
 	db := config.DB()
 	results := db.Preload("Admin").First(&equipment, ID)
@@ -75,7 +74,7 @@ func GetEquipment(c *gin.Context) {
 }
 
 // GET /equipment
-func ListEquipment(c *gin.Context) {
+func ListEquipments(c *gin.Context) {
 	var equipment []entity.quipments // Assuming you want to use the same structure
 
 	db := config.DB()
@@ -131,7 +130,7 @@ func UpdateEquipment(c *gin.Context) {
 }
 
 // GET /equipment/count
-func CountEquipment(c *gin.Context) {
+func CountEquipments(c *gin.Context) {
 	var count int64
 	db := config.DB()
 	if err := db.Model(&entity.Equipment{}).Count(&count).Error; err != nil {

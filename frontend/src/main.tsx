@@ -1,23 +1,25 @@
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import App from './App.tsx'
+import './index.css'
 
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom'; // Import BrowserRouter here
-import App from './App';
-import './index.css';
+import { md5 } from '@mui/x-license-pro/encoding/md5';
+import { LicenseInfo } from '@mui/x-license-pro';
+import { LICENSE_SCOPES } from '@mui/x-license-pro/utils/licenseScope';
+import { LICENSING_MODELS } from '@mui/x-license-pro/utils/licensingModel';
 
-// Ensure 'root' is an HTML element in your index.html
-const rootElement = document.getElementById('root');
+let orderNumber = '';
+let expiryTimestamp = Date.now(); // Expiry is based on when the package was created, ignored if perpetual license
+let scope = LICENSE_SCOPES[1]; // 'pro' or 'premium'
+let licensingModel = LICENSING_MODELS[0]; // 'perpetual', 'subscription'
+let licenseInfo = `O=${orderNumber},E=${expiryTimestamp},S=${scope},LM=${licensingModel},KV=2`;
+LicenseInfo.setLicenseKey(md5(btoa(licenseInfo)) + btoa(licenseInfo));
 
-if (!rootElement) {
-  throw new Error('Root element not found');
-}
+// Set MUI license key
+LicenseInfo.setLicenseKey('e0d9bb8070ce0054c9d9ecb6e82cb58fTz0wLEU9MzI0NzIxNDQwMDAwMDAsUz1wcmVtaXVtLExNPXBlcnBldHVhbCxLVj0y');
 
-const root = createRoot(rootElement);
-
-root.render(
+createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </StrictMode>
-);
+    <App />
+  </StrictMode>,
+)

@@ -1,6 +1,6 @@
 import { ClassesInterface } from "../../../interface/IClass";
 
-const apiUrl = "http://localhost:8000";
+const apiUrl = "http://localhost:3036";
 
 const fetchData = async (url: string, options: RequestInit) => {
     try {

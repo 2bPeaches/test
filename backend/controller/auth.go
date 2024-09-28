@@ -11,11 +11,11 @@ import (
 
 	// "gorm.io/gorm"
 
-	"example.com/pj2/config"
+	"backend/config"
 
-	"example.com/pj2/entity"
+	"backend/entity"
 
-	"example.com/pj2/services"
+	"backend/services"
 )
 
 

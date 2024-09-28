@@ -3,8 +3,8 @@ package controller
 import (
 	"net/http"
 
-	"example.com/pj2/config"
-	"example.com/pj2/entity"
+	"backend/config"
+	"backend/entity"
 
 	"github.com/gin-gonic/gin"
 )
@@ -127,5 +127,3 @@ func UpdatePayment(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Updated successful"})
 }
-
-

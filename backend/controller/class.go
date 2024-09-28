@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"example.com/pj2/config"
-	"example.com/pj2/entity"
+	"backend/config"
+	"backend/entity"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"

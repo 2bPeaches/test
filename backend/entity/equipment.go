@@ -18,6 +18,6 @@ type Equipment struct {
 	AdminID uint
 	Admin   Admin `gorm:"foriegnKey:AdminID"`
 
-	BookingEquipments []BookingEquipment `gorm:"foreignKey:ClassID"`
+	BookingEquipments []BookingEquipment `gorm:"foreignKey:EquipmentID"`
 
 } 

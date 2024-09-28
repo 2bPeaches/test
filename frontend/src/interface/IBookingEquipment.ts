@@ -1,4 +1,4 @@
-export interface BookingInterface {
+export interface BookingEquipmentInterface {
     ID?: number;
     DateBooking?: Date;
     EquipmentID?: number;

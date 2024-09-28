@@ -40,9 +40,9 @@ const SideBar: React.FC = () => {
                 { title: "Trainer", icon: <FaRegDotCircle />, link: "/class/trainer" },
             ],
         },
-        { title: "Equipments", icon: <MdFitnessCenter /> },
+        { title: "Equipments", icon: <MdFitnessCenter />, link : "/equip" },
         { title: "Package", icon :<RiBillLine />, link : "/admin/package"},
-        { title: "Payments", icon: <FaMoneyBills /> },
+        { title: "Payments", icon: <FaMoneyBills />, link : "/payment" },
     ];
 
     const isActive = (menuLink: string | undefined): boolean => {
@@ -54,10 +54,10 @@ const SideBar: React.FC = () => {
     };
 
     return (
-        <div className={`bg-sidebar text-white h-screen ${open ? "w-72" : "w-20"} duration-300 relative border-r-[5px] border-white `}>
+        <div className={`bg-gray4 text-white h-screen ${open ? "w-72" : "w-20"} duration-300 relative border-r-[5px] border-white `}>
             <BsArrowLeftShort
-                className={`bg-white text-sidebar text-3xl rounded-full z-20
-                absolute -right-3 top-5 border border-sidebar cursor-pointer ${!open && "rotate-180"}`}
+                className={`bg-white text-gray4 text-3xl rounded-full z-20
+                absolute -right-3 top-5 border border-gray4 cursor-pointer ${!open && "rotate-180"}`}
                 onClick={() => setOpen(!open)}
             />
             <div className="inline-flex items-center p-4">
@@ -73,8 +73,8 @@ const SideBar: React.FC = () => {
                     <li key={index} className="relative">
                         <Link
                             to={menu.link || "#"}
-                            className={`text-white font-sans font-medium text-xl flex items-center gap-x-4 cursor-pointer p-4 mt-2 ml-1 hover:bg-hover hover:text-green hover:bg-opacity-10 hover:rounded-full w-max ${
-                                isActive(menu.link) ? " bg-hover bg-opacity-10 rounded-full w-max text-lime-400" : ""
+                            className={`text-white font-sans font-medium text-xl flex items-center gap-x-4 cursor-pointer p-4 mt-2 ml-1 hover:bg-green5 hover:text-green3 hover:bg-opacity-10 hover:rounded-full w-max ${
+                                isActive(menu.link) ? " bg-green5 bg-opacity-10 rounded-full w-max text-green2" : ""
                             }`}
                             onClick={() => menu.submenu && toggleSubMenu(menu.title)} // toggle เฉพาะเมนูหลักที่มีเมนูย่อย
                         >
@@ -95,7 +95,7 @@ const SideBar: React.FC = () => {
                                     <li key={subIndex}>
                                         <Link
                                             to={submenu.link || "#"}
-                                            className="text-white font-sans font-normal text-lg flex items-center gap-x-4 cursor-pointer p-2 mt-1 hover:bg-hover hover:text-green hover:bg-opacity-10 hover:rounded-full w-max"
+                                            className="text-white font-sans font-normal text-lg flex items-center gap-x-4 cursor-pointer p-2 mt-1 hover:bg-green5 hover:text-green3 hover:bg-opacity-10 hover:rounded-full w-max"
                                             // คลิกเมนูย่อยไม่ปิดเมนูย่อย
                                         >
                                             <span className="text-xl">{submenu.icon}</span>

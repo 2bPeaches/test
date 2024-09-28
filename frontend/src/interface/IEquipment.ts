@@ -1,4 +1,4 @@
-export interface EquipmentInterface {
+export interface EquipmentsInterface {
     ID?: number;
     EquipmentName?:  String;
     Deets?: string;

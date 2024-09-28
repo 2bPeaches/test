@@ -1,6 +1,6 @@
 import { ClassTypesInterface } from "../../../../interface/IClassType";
 
-const apiUrl = "http://localhost:8000";
+const apiUrl = "http://localhost:3036";
 
 // Helper function for handling fetch requests
 const fetchData = async (url: string, options: RequestInit) => {

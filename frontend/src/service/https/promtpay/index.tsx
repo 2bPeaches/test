@@ -1,4 +1,4 @@
-import { PromtPayInterface } from "../../../interfaces/IPromtpay";
+import { PromtPayInterface } from "../../../interface/IPromtpay";
 
 const apiUrl = "http://localhost:3036";
 

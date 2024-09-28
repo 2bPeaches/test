@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { GrAddCircle } from "react-icons/gr";
 import { Link, useNavigate } from "react-router-dom";
 import { GetEquipment , DeleteEquipmentByID } from "../../../service/https/equipment";
-import SideBar from "../../../components/Equipp/equip/SideBar";
-import Navbar from "../../../components/Equipp/equip/Navbar";
+import SideBar from "../../../components/admin/class/SideBar";
+import Navbar from "../../../components/admin/class/Navbar";
 import { MdEdit, MdDeleteForever } from "react-icons/md";
 import toast, { Toaster } from "react-hot-toast";
 import dayjs from "dayjs";
@@ -19,7 +19,7 @@ interface Equipment {
     EquipmentPic: string;
     EquipmentDescription: string;
     StartDate: string;
-    ReturnDate: string;
+    EndDate: string;
 }
 
 const Equipment: React.FC = () => {
@@ -119,7 +119,7 @@ const Equipment: React.FC = () => {
                                             <h3 className="text-green1 mt-2 mb-2 mr-6 text-[20px]">{equipment.EquipmentDescription}</h3>
                                             <h4 className="text-green1 mb-2 text-[20px]">
                                                 Start: {dayjs.tz(equipment.StartDate, "Asia/Bangkok").format("D MMM YYYY")} <br />
-                                                Return: {dayjs.tz(equipment.ReturnDate, "Asia/Bangkok").format("D MMM YYYY")}
+                                                End: {dayjs.tz(equipment.EndDate, "Asia/Bangkok").format("D MMM YYYY")}
                                             </h4>
                                         </div>
                                     </div>

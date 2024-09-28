@@ -4,8 +4,8 @@ import { GetMemberById } from "../../../service/https/member";
 import { GetAdminById } from "../../../service/https/admin";
 
 interface UserInterface {
-    Firstname: string;
-    Lastname: string;
+    FirstName: string;
+    LastName: string;
     // Add other properties if needed
 }
 
@@ -33,23 +33,26 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                         fetchedUserData = await GetAdminById(Number(userId));
                     }
 
-                    // Assign the fetched user data or default value
-                    setUserData(fetchedUserData || { Firstname: "-", Lastname: "-" });
+                    // Assign the fetched user data
+                    if (fetchedUserData) {
+                        setUserData(fetchedUserData);
+                    } else {
+                        setUserData({ FirstName: "-", LastName: "-" }); // Default value
+                    }
                 } catch (error) {
                     console.error("Failed to fetch user data:", error);
-                    setUserData({ Firstname: "-", Lastname: "-" }); // Default value
+                    setUserData({ FirstName: "-", LastName: "-" }); // Default value
                 }
             } else {
-                setUserData({ Firstname: "-", Lastname: "-" }); // Default value
+                setUserData({ FirstName: "-", LastName: "-" }); // Default value
             }
         };
 
         fetchUserData();
     }, []);
-    console.log(userData)
 
     const toggleDropdown = () => {
-        setDropdownOpen(prevState => !prevState);
+        setDropdownOpen(!isDropdownOpen);
     };
 
     const handleLogout = () => {
@@ -67,19 +70,17 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
                         onClick={toggleDropdown}
                     >
                         <span className="font-medium text-gray-600 dark:text-gray-300">
-                            {userData 
-                                ? `${(userData.Firstname || '').charAt(0)}${(userData.Lastname || '').charAt(0)}`.toUpperCase() 
-                                : "JL"}
+                            {userData ? `${userData.FirstName.charAt(0)}${userData.LastName.charAt(0)}`.toUpperCase() : "JL"}
                         </span>
                     </div>
                     {isDropdownOpen && (
                         <div className="absolute right-0 mt-[185px] w-48 bg-gray4 bg-opacity-95 border border-green3 rounded-lg shadow-lg z-10">
                             <ul className="text-white p-2">
-                                <li className="p-2 border-b-2">
-                                    {userData ? `${userData.Firstname} ${userData.Lastname}` : "Settings"}
+                                <li className="p-2 border-b-2 ">
+                                    {userData ? `${userData.FirstName} ${userData.LastName}` : "Settings"}
                                 </li>
-                                <li className="p-2 hover:bg-green5 cursor-pointer">Profile</li>
-                                <li className="p-2 hover:bg-green5 cursor-pointer" onClick={handleLogout}>
+                                <li className="p-2 hover:bg-green cursor-pointer">Profile</li>
+                                <li className="p-2 hover:bg-green cursor-pointer" onClick={handleLogout}>
                                     Logout
                                 </li>
                             </ul>

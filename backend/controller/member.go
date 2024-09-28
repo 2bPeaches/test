@@ -2,13 +2,14 @@ package controller
 
 import (
 	"net/http"
-	"github.com/gin-gonic/gin"
-	"example.com/pj2/entity"
-	"example.com/pj2/config"
 
+	"backend/entity"
+	"backend/config"
+
+	"github.com/gin-gonic/gin"
 )
 
-// POST /users
+// POST /member
 func CreateMember(c *gin.Context) {
 	var member entity.Member
 
@@ -20,35 +21,28 @@ func CreateMember(c *gin.Context) {
 
 	db := config.DB()
 
+
 	// ค้นหา gender ด้วย id
-	var genders entity.Genders
-	db.First(&genders, member.GenderID)
-	if genders.ID == 0 {
+	var gender entity.Gender
+	db.First(&gender, member.GenderID)
+	if gender.ID == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"error": "gender not found"})
 		return
-	}	
-
-	// ตรวจสอบว่า username ซ้ำกันหรือไม่
-	var existingMember entity.Member
-	if err := db.Where("username = ?", member.Username).First(&existingMember).Error; err == nil {
-		c.JSON(http.StatusConflict, gin.H{"error": "username already exists"})
-		return
 	}
+
 
 	// เข้ารหัสลับรหัสผ่านที่ผู้ใช้กรอกก่อนบันทึกลงฐานข้อมูล
 	hashedPassword, _ := config.HashPassword(member.Password)
 
 	// สร้าง Member
 	m := entity.Member{
-		Firstname: member.Firstname,
-		Lastname:  member.Lastname,
-		Email:     member.Email,
-		Password:  hashedPassword,
 		Username: member.Username,
-		Phonenumber: member.Phonenumber,
-		GenderID:  member.GenderID,
-		Gender:    genders,
-		Age: member.Age,
+		Password:  hashedPassword,
+		Email:     member.Email,
+        FirstName: member.FirstName,
+        LastName:  member.LastName,
+        GenderID:  member.GenderID,
+		Gender:    gender,  //โยงความสัมพันธ์กับ Entity Gender
 	}
 
 	// บันทึก
@@ -59,7 +53,6 @@ func CreateMember(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{"message": "Created success", "data": m})
 }
-
 
 // GET /member/:id
 func GetMember(c *gin.Context) {
@@ -78,55 +71,22 @@ func GetMember(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, member)
 }
-func GetUsername(c *gin.Context) {
-	Username := c.Param("username")
-	var member entity.Member
 
-	db := config.DB()
-	results := db.Preload("Gender").First(&member, Username)
-	if results.Error != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": results.Error.Error()})
-		return
-	}
-	if member.ID == 0 {
-		c.JSON(http.StatusNoContent, gin.H{})
-		return
-	}
-	c.JSON(http.StatusOK, member)
-}
-
-func GetPassword(c *gin.Context) {
-	Password := c.Param("password")
-	var member entity.Member
-
-	db := config.DB()
-	results := db.Preload("Gender").First(&member, Password)
-	if results.Error != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": results.Error.Error()})
-		return
-	}
-	if member.ID == 0 {
-		c.JSON(http.StatusNoContent, gin.H{})
-		return
-	}
-	c.JSON(http.StatusOK, member)
-}
-
-// GET /users
+// GET /members
 func ListMembers(c *gin.Context) {
 
-	var users []entity.Member
+	var members []entity.Member
 
 	db := config.DB()
-	results := db.Preload("Gender").Find(&users)
+	results := db.Preload("Gender").Find(&members)
 	if results.Error != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": results.Error.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, users)
+	c.JSON(http.StatusOK, members)
 }
 
-// DELETE /users/:id
+// DELETE /members/:id
 func DeleteMember(c *gin.Context) {
 
 	id := c.Param("id")
@@ -139,11 +99,11 @@ func DeleteMember(c *gin.Context) {
 
 }
 
-// PATCH /users
+// PATCH /members
 func UpdateMember(c *gin.Context) {
 	var member entity.Member
 
-	MemberID := c.Param("Memberid")
+	MemberID := c.Param("id")
 
 	db := config.DB()
 	result := db.First(&member, MemberID)
@@ -165,6 +125,17 @@ func UpdateMember(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Updated successful"})
 }
+
+func CountMembers(c *gin.Context) {
+	var count int64
+	db := config.DB()
+	if err := db.Model(&entity.Member{}).Count(&count).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"count": count})
+}
+
 func CheckSubscription(c *gin.Context) {
     var member entity.Member
     var payment entity.Payment // Assuming you have a Payment struct in the entity package
@@ -189,13 +160,4 @@ func CheckSubscription(c *gin.Context) {
 
     // If a payment is found, assume the member is subscribed
     c.JSON(http.StatusOK, gin.H{"message": "Subscribed"})
-}
-func CountMembers(c *gin.Context) {
-	var count int64
-	db := config.DB()
-	if err := db.Model(&entity.Member{}).Count(&count).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"count": count})
 }

@@ -1,6 +1,6 @@
 import { SignInInterface } from "../../interface/ISignIn";
 
-const apiUrl = "http://localhost:8000";
+const apiUrl = "http://localhost:3036";
 
 // Helper function for handling fetch requests
 const fetchData = async (url: string, options: RequestInit) => {
@@ -59,6 +59,17 @@ async function CountClasses() {
         },
     };
 
+    return await fetchData(`${apiUrl}/equipments/count`, requestOptions);
+}
+
+async function CountEquipments() {
+    const requestOptions = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+
     return await fetchData(`${apiUrl}/classes/count`, requestOptions);
 }
 
@@ -73,4 +84,4 @@ async function CountStaffs() {
     return await fetchData(`${apiUrl}/staffs/count`, requestOptions);
 }
 
-export { SignIn, CountMembers, CountClasses, CountStaffs };
+export { SignIn, CountMembers, CountClasses,CountEquipments, CountStaffs };

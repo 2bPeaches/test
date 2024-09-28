@@ -1,6 +1,6 @@
-import { MembersInterface } from "../../../interface/IMembers";
+import { MembersInterface } from "../../../interface/IMember";
 
-const apiUrl = "http://localhost:8000";
+const apiUrl = "http://localhost:3036";
 
 // Helper function for handling fetch requests
 const fetchData = async (url: string, options: RequestInit) => {
@@ -60,45 +60,15 @@ async function CreateMember(data: MembersInterface) {
     return await fetchData(`${apiUrl}/members`, requestOptions);
 }
 
-async function UpdateMember(id: number | undefined, data: MembersInterface) {
-    // สร้างออบเจ็กต์ใหม่ที่มีเฉพาะข้อมูลที่ต้องการอัปเดต
-    const updateData = {
-        Firstname: data.Firstname,
-        Lastname: data.Lastname,
-        Email: data.Email,
-        Username: data.Username,
-        Phonenumber: data.Phonenumber || "", // Assuming this field exists in data
-        GenderID: data.GenderID,
-        Password: "", // Keep Password empty for security reasons
-        Age: data.Age || "", // Assuming this field exists in data
-        TypeMember: data.TypeMember || "", // Assuming this field exists in data
-        PaymentStatus: data.PaymentStatus || "", // Assuming this field exists in data
-        SuspensionStatus: data.SuspensionStatus || "", // Assuming this field exists in data
-        // Password is usually not included in updates for security reasons
-    };
-  
+async function UpdateMember(data: MembersInterface) {
     const requestOptions = {
         method: "PATCH",
-        headers: { 
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updateData), // ส่งเฉพาะข้อมูลที่ต้องการอัปเดต
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
     };
-  
-    try {
-        const response = await fetch(`${apiUrl}/UpdateMember/${id}`, requestOptions);
-        const res = await response.json();
-  
-        if (res.data) {
-            return { status: true, message: res.data };
-        } else {
-            return { status: false, message: res.error };
-        }
-    } catch (error: any) {
-        return { status: false, message: error.message };
-    }
-}
 
+    return await fetchData(`${apiUrl}/members`, requestOptions);
+}
 
 async function DeleteMemberByID(id: number | undefined) {
     if (id === undefined) return false;

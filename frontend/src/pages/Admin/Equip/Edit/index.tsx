@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Navbar from '../../../../components/Equipp/equip/Navbar';
-import SideBar from '../../../../components/Equipp/equip/SideBar';
-import Dropzone from '../../../../components/Equipp/equip/Dropzone';
-import Form from "../../../../components/Equipp/equip/EditClass/Form";
-import Modal from "../../../../components/Equipp/equip/EditClass/Modal";
+import Navbar from '../../../../components/admin/equip/Navbar';
+import SideBar from '../../../../components/admin/equip/SideBar';
+import Dropzone from '../../../../components/admin/equip/Dropzone';
+import Form from "../../../../components/admin/equip/EditClass/Form";
+import Modal from "../../../../components/admin/equip/EditClass/Modal";
 import { FaRegSave } from "react-icons/fa";
 import { UpdateEquipment, GetEquipmentById } from "../../../../service/https/equipment";
 import { EquipmentInterface } from "../../../../interface/IEquipment";

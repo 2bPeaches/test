@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"time"
 
-	"example.com/pj2/config"
-	"example.com/pj2/entity"
+	"backend/config"
+	"backend/entity"
 
 	"github.com/gin-gonic/gin"
 )
@@ -39,7 +39,7 @@ func CreateEquipmentBooking(c *gin.Context) {
 	}
 
 	// Create Booking
-	b := entity.BookingEquipment{
+	be := entity.BookingEquipment{
 		DateBooking: bookingEquipment.DateBooking,
 		EquipmentID: bookingEquipment.EquipmentID,
 		Equipment:   equipment,
@@ -48,7 +48,7 @@ func CreateEquipmentBooking(c *gin.Context) {
 	}
 
 	// Save to database
-	if err := db.Create(&b).Error; err != nil {
+	if err := db.Create(&be).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -62,12 +62,16 @@ func GetEquipmentBooking(c *gin.Context) {
 	var bookingEquipment entity.BookingEquipment
 
 	db := config.DB()
-	results := db.Preload("Equipment").Preload("Member").First(&booking, ID)
+	results := db.Preload("Equipment").Preload("Member").First(&bookingEquipment, ID)
 	if results.Error != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": results.Error.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, booking)
+	if bookingEquipment.ID == 0 {
+		c.JSON(http.StatusNoContent, gin.H{})
+		return
+	}
+	c.JSON(http.StatusOK, bookingEquipment)
 }
 
 // GET /equipment/bookings
@@ -75,19 +79,19 @@ func ListEquipmentBookings(c *gin.Context) {
 	var bookingEquipments []entity.BookingEquipment
 
 	db := config.DB()
-	results := db.Preload("Equipment").Preload("Member").Find(&bookings)
+	results := db.Preload("Equipment").Preload("Member").Find(&bookingEquipments)
 	if results.Error != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": results.Error.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, bookings)
+	c.JSON(http.StatusOK, bookingEquipments)
 }
 
 // DELETE /equipment/bookings/:id
 func DeleteEquipmentBooking(c *gin.Context) {
 	id := c.Param("id")
 	db := config.DB()
-	if tx := db.Exec("DELETE FROM bookings WHERE id = ?", id); tx.RowsAffected == 0 {
+	if tx := db.Exec("DELETE FROM bookingEquipments WHERE id = ?", id); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "id not found"})
 		return
 	}
@@ -101,7 +105,7 @@ func UpdateEquipmentBooking(c *gin.Context) {
 	BookingEquipmentID := c.Param("id")
 
 	db := config.DB()
-	result := db.First(&bookingEquipmenting, BookingEquipmentID)
+	result := db.First(&bookingEquipment, BookingEquipmentID)
 	if result.Error != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "id not found"})
 		return

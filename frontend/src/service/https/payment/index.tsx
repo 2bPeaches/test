@@ -1,4 +1,4 @@
-import { PaymentInterface } from "../../../interfaces/IPayment";
+import { PaymentInterface } from "../../../interface/IPayment";
 
 const apiUrl = "http://localhost:3036";
 

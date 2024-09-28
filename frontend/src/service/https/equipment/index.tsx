@@ -1,6 +1,6 @@
-import { EquipmentInterface } from "../../../interface/IEquipment"; // Update the import path as necessary
+import { EquipmentsInterface } from "../../../interface/IEquipment"; // Update the import path as necessary
 
-const apiUrl = "http://localhost:8000";
+const apiUrl = "http://localhost:3036";
 
 const fetchData = async (url: string, options: RequestInit) => {
     try {
@@ -38,7 +38,7 @@ async function GetEquipmentById(id: number | undefined) {
     return await fetchData(`${apiUrl}/equip/${id}`, requestOptions);
 }
 
-async function CreateEquipment(data: EquipmentInterface) {
+async function CreateEquipment(data: EquipmentsInterface) {
     const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -48,7 +48,7 @@ async function CreateEquipment(data: EquipmentInterface) {
     return await fetchData(`${apiUrl}/equips`, requestOptions);
 }
 
-async function UpdateEquipment(data: EquipmentInterface) {
+async function UpdateEquipment(data: EquipmentsInterface) {
     const requestOptions = {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },

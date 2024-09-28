@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 	"time"
-	"example.com/pj2/entity"
+	"backend/entity"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -37,7 +37,8 @@ func SetupDatabase() {
 		&entity.Payment{},
 		&entity.PromptPay{},
 		&entity.CreditCard{},
-		&entity.
+		&entity.Equipment{},
+		&entyty.EquipmentBooking{},
 
 	)
 	GenderMale := entity.Genders{Gender: "Male"}
@@ -51,6 +52,12 @@ func SetupDatabase() {
 
 	db.FirstOrCreate(&TrainerJib, &entity.Trainer{Name: "Jib"})
 	db.FirstOrCreate(&TrainerAdam, &entity.Trainer{Name: "Adam"})
+	
+	EquipmentDumbbell := entity.Equipment{Name: "Dumbell", EquipmentPic: "xx"}
+	EquipmentJumprope := entity.Equipment{Name: "Jumprope", EquipmentPic: "oo"}
+
+	db.FirstOrCreate(&EquipmentDumbbell, &entity.Equipment{Name: "Dumbbell"})
+	db.FirstOrCreate(&EquipmentJumprope, &entity.Equipment{Name: "Jumprope"})
 
 	ClassTypeCardio := entity.ClassType{Name: "Cardio"}
 	ClassTypeCycling := entity.ClassType{Name: "Cycling"}
@@ -94,6 +101,18 @@ func SetupDatabase() {
 		AdminID: 1,
 	}
 
+	StartDate, _ := time.Parse("2006-01-02 15:04:05", "2024-08-31 14:30:00")
+	EndDate, _ := time.Parse("2006-01-02 15:04:05", "2024-08-31 14:30:00")
+	Equipment := &entity.Equipment{
+		ClassName: "Dumbbell",
+		Deets:  "Be strength with dumbbell",
+		StartDate: StartDate,
+		EndDate:  EndDate,
+		ClassPic: "xx",
+	}
+
+
+
 	Package := entity.Package{
 		PackageName:  "Daily",
 		Description:  "Members can access all services within the fitness center for a full day",
@@ -111,8 +130,11 @@ func SetupDatabase() {
         ClassName: "Hatha Yoga",
     })
 
+	db.FirstOrCreate(Equipment, &entity.Equipment{
+        EquipmentName: "Dumbbell",
+    })
+
 	db.FirstOrCreate(&Package, entity.Package{PackageName: "Daily_Membership"})
 
-	
 	
 }

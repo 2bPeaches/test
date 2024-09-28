@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import Navbar from '../../../../components/Equipp/equip/Navbar';
-import SideBar from '../../../../components/Equipp/equip/SideBar';
-import Dropzone from '../../../../components/Equipp/equip/Dropzone';
-import EquipmentForm from '../../../../components/Equipp/equip/CreateClass/EquipmentForm';
-import ConfirmModal from '../../../../components/Equipp/equip/CreateClass/ConfirmModal';
+import SideBar from "../../../../components/admin/class/SideBar";
+import Navbar from "../../../../components/admin/class/Navbar";
+import Dropzone from '../../../../components/admin/equip/Dropzone';
+import EquipmentForm from '../../../../components/admin/equip/CreateClass/EquipmentForm';
+import ConfirmModal from '../../../../components/admin/equip/CreateClass/ConfirmModal';
 import { FaRegSave } from 'react-icons/fa';
 import { CreateEquipment } from '../../../../service/https/equipment';
-import { EquipmentInterface } from '../../../../interface/IEquipment';
+import { EquipmentsInterface } from '../../../../interface/IEquipment';
 import { useNavigate } from 'react-router-dom';
 import imageCompression from 'browser-image-compression';
 import toast, { Toaster } from 'react-hot-toast';
@@ -14,7 +14,7 @@ import toast, { Toaster } from 'react-hot-toast';
 const EquipmentCreate: React.FC = () => {
     const [equipmentName, setEquipmentName] = useState<string>('');
     const [startDate, setStartDate] = useState<Date | null>(null);
-    const [returnDate, setReturnDate] = useState<Date | null>(null);
+    const [endDate, setEndDate] = useState<Date | null>(null);
     const [equipmentDescription, setEquipmentDescription] = useState<string>('');
     const [equipmentPic, setEquipmentPic] = useState<File | null>(null);
     const [equipmentPicURL, setEquipmentPicURL] = useState<string>('');
@@ -30,22 +30,22 @@ const EquipmentCreate: React.FC = () => {
         if (!equipmentPic) errors.push("Please upload an equipment picture.");
         if (!equipmentDescription) errors.push("Please enter a description.");
         if (!startDate) errors.push("Please select a start date.");
-        if (!returnDate) errors.push("Please select an end date.");
+        if (!endDate) errors.push("Please select an end date.");
 
-        if (startDate && returnDate) {
+        if (startDate && endDate) {
             const startDay = startDate.getDate();
             const startMonth = startDate.getMonth();
             const startYear = startDate.getFullYear();
 
-            const endDay = returnDate.getDate();
-            const endMonth = returnDate.getMonth();
-            const endYear = returnDate.getFullYear();
+            const endDay = endDate.getDate();
+            const endMonth = endDate.getMonth();
+            const endYear = endDate.getFullYear();
 
             if (startDay !== endDay || startMonth !== endMonth || startYear !== endYear) {
                 errors.push("Start date and end date must be on the same day.");
             } else {
                 const startTime = startDate.getTime();
-                const endTime = returnDate.getTime();
+                const endTime = endDate.getTime();
 
                 if (startTime >= endTime) {
                     errors.push("Start time must be earlier than end time.");
@@ -66,12 +66,12 @@ const EquipmentCreate: React.FC = () => {
         try {
             const adminID = localStorage.getItem("id");
             const adminIDNumber = adminID ? Number(adminID) : 1;
-            const newEquipment: EquipmentInterface = {
+            const newEquipment: EquipmentsInterface = {
                 EquipmentName: equipmentName,
                 Deets: equipmentDescription,
                 EquipmentPic: equipmentPic ? await getBase64(equipmentPic) : equipmentPicURL,
                 StartDate: startDate ? new Date(startDate) : undefined,
-                EndDate: returnDate ? new Date(returnDate) : undefined,
+                EndDate: endDate ? new Date(endDate) : undefined,
                 AdminID: adminIDNumber,
             };
 
@@ -164,8 +164,8 @@ const EquipmentCreate: React.FC = () => {
                                 setEquipmentDescription={setEquipmentDescription}
                                 startDate={startDate}
                                 setStartDate={setStartDate}
-                                returnDate={returnDate}
-                                setReturnDate={setReturnDate}
+                                endDate={endDate}
+                                setEndDate={setEndDate}
                             />
                         </div>
                     </div>

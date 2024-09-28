@@ -12,8 +12,8 @@ interface EquipmentFormProps {
     setEquipmentDescription: React.Dispatch<React.SetStateAction<string>>;
     startDate: Date | null;
     setStartDate: React.Dispatch<React.SetStateAction<Date | null>>;
-    returnDate: Date | null;
-    setReturnDate: React.Dispatch<React.SetStateAction<Date | null>>;
+    endDate: Date | null;
+    setEndDate: React.Dispatch<React.SetStateAction<Date | null>>;
 }
 
 const EquipmentForm: React.FC<EquipmentFormProps> = ({
@@ -23,8 +23,8 @@ const EquipmentForm: React.FC<EquipmentFormProps> = ({
     setEquipmentDescription,
     startDate,
     setStartDate,
-    returnDate,
-    setReturnDate,
+    endDate,
+    setEndDate,
 }) => (
     <div className="flex flex-col items-start ml-[40px]">
         <Label text="Equipment Name" />
@@ -45,9 +45,9 @@ const EquipmentForm: React.FC<EquipmentFormProps> = ({
             label="Start Date and Time:"
         />
         <DateTimePicker
-            selectedDate={returnDate || new Date()}
-            onChange={(date) => setReturnDate(date)}
-            label="Return Date and Time:"
+            selectedDate={endDate || new Date()}
+            onChange={(date) => setEndDate(date)}
+            label="End Date and Time:"
         />
     </div>
 );

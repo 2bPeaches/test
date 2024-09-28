@@ -3,8 +3,8 @@ package controller
 import (
 	"net/http"
 
-	"example.com/pj2/config"
-	"example.com/pj2/entity"
+	"backend/entity"
+	"backend/config"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,9 +23,17 @@ func CreatePromtpay(c *gin.Context) {
 
 
 	// ค้นหา Payment ด้วย id
+	// var payment entity.Payment
+	// db.First(&payment, promtpay.PaymentID)
+	// if promtpay.ID == 0 {
+	// 	c.JSON(http.StatusNotFound, gin.H{"error": "payment not found"})
+	// 	return
+	// }
+
 	var payment entity.Payment
-	db.First(&payment, promtpay.PaymentID)
-	if promtpay.ID == 0 {
+	result := db.First(&payment, promtpay.PaymentID)
+	if result.Error != nil {
+		// Payment not found
 		c.JSON(http.StatusNotFound, gin.H{"error": "payment not found"})
 		return
 	}
@@ -117,5 +125,3 @@ func UpdatePromptpay(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Updated successful"})
 }
-
-
