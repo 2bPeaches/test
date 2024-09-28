@@ -3,8 +3,8 @@ package controller
 import (
 	"net/http"
 
-	"backend/config"
-	"backend/entity"
+	"example.com/pj2/config"
+	"example.com/pj2/entity"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -38,6 +38,7 @@ func CreateTrainer(c *gin.Context) {
 	// สร้าง trainer
 	t := entity.Trainer{
 		Name: trainer.Name,
+		TrainerPic:  trainer.TrainerPic,
 	}
 	// บันทึก
 	if err := db.Create(&t).Error; err != nil {

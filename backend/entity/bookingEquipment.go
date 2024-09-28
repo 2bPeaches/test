@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type Booking struct {
+type BookingEquipment struct {
 
 	gorm.Model
 	DateBooking time.Time

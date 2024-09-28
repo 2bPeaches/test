@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"backend/config"
-	"backend/entity"
+	"example.com/pj2/config"
+	"example.com/pj2/entity"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -14,7 +14,7 @@ import (
 
 // POST /equipment
 func CreateEquipment(c *gin.Context) {
-	var equipment entity.Class // Assuming you want to use the same structure
+	var equipment entity.Equipment // Assuming you want to use the same structure
 
 	// Bind to equipment variable
 	if err := c.ShouldBindJSON(&equipment); err != nil {
@@ -36,7 +36,7 @@ func CreateEquipment(c *gin.Context) {
 	}
 
 	// Create Equipment
-	eq := entity.Class{
+	eq := entity.Equipment{
 		EquipmentName: equipment.EquipmentName,
 		Deets:        equipment.Deets,
 		StartDate:    equipment.StartDate,
@@ -76,7 +76,7 @@ func GetEquipment(c *gin.Context) {
 
 // GET /equipment
 func ListEquipment(c *gin.Context) {
-	var equipment []entity.Class // Assuming you want to use the same structure
+	var equipment []entity.quipments // Assuming you want to use the same structure
 
 	db := config.DB()
 	results := db.Preload("Admin").Find(&equipment)
@@ -105,7 +105,7 @@ func DeleteEquipment(c *gin.Context) {
 
 // PATCH /equipment/:id
 func UpdateEquipment(c *gin.Context) {
-	var equipment entity.Class // Assuming you want to use the same structure
+	var equipment entity.Equipment // Assuming you want to use the same structure
 
 	UserID := c.Param("id")
 
@@ -134,7 +134,7 @@ func UpdateEquipment(c *gin.Context) {
 func CountEquipment(c *gin.Context) {
 	var count int64
 	db := config.DB()
-	if err := db.Model(&entity.Class{}).Count(&count).Error; err != nil {
+	if err := db.Model(&entity.Equipment{}).Count(&count).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

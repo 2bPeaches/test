@@ -4,18 +4,18 @@ import (
 	"net/http"
 	"time"
 
-	"backend/config"
-	"backend/entity"
+	"example.com/pj2/config"
+	"example.com/pj2/entity"
 
 	"github.com/gin-gonic/gin"
 )
 
 // POST /equipment/booking
 func CreateEquipmentBooking(c *gin.Context) {
-	var booking entity.Booking
+	var bookingEquipment entity.BookingEquipment
 
 	// Bind to booking variable
-	if err := c.ShouldBindJSON(&booking); err != nil {
+	if err := c.ShouldBindJSON(&bookingEquipment); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -23,8 +23,8 @@ func CreateEquipmentBooking(c *gin.Context) {
 	db := config.DB()
 
 	// Validate Equipment
-	var equipment entity.Class
-	db.First(&equipment, booking.EquipmentID)
+	var equipment entity.Equipment
+	db.First(&equipment, bookingEquipment.EquipmentID)
 	if equipment.ID == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Equipment not found"})
 		return
@@ -32,18 +32,18 @@ func CreateEquipmentBooking(c *gin.Context) {
 
 	// Validate Member
 	var member entity.Member
-	db.First(&member, booking.MemberID)
+	db.First(&member, bookingEquipment.MemberID)
 	if member.ID == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Member not found"})
 		return
 	}
 
 	// Create Booking
-	b := entity.Booking{
-		DateBooking: booking.DateBooking,
-		EquipmentID: booking.EquipmentID,
+	b := entity.BookingEquipment{
+		DateBooking: bookingEquipment.DateBooking,
+		EquipmentID: bookingEquipment.EquipmentID,
 		Equipment:   equipment,
-		MemberID:    booking.MemberID,
+		MemberID:    bookingEquipment.MemberID,
 		Member:      member,
 	}
 
@@ -59,7 +59,7 @@ func CreateEquipmentBooking(c *gin.Context) {
 // GET /equipment/booking/:id
 func GetEquipmentBooking(c *gin.Context) {
 	ID := c.Param("id")
-	var booking entity.Booking
+	var bookingEquipment entity.BookingEquipment
 
 	db := config.DB()
 	results := db.Preload("Equipment").Preload("Member").First(&booking, ID)
@@ -72,7 +72,7 @@ func GetEquipmentBooking(c *gin.Context) {
 
 // GET /equipment/bookings
 func ListEquipmentBookings(c *gin.Context) {
-	var bookings []entity.Booking
+	var bookingEquipments []entity.BookingEquipment
 
 	db := config.DB()
 	results := db.Preload("Equipment").Preload("Member").Find(&bookings)
@@ -96,23 +96,23 @@ func DeleteEquipmentBooking(c *gin.Context) {
 
 // PATCH /equipment/bookings/:id
 func UpdateEquipmentBooking(c *gin.Context) {
-	var booking entity.Booking
+	var bookingEquipment entity.BookingEquipment
 
-	BookingID := c.Param("id")
+	BookingEquipmentID := c.Param("id")
 
 	db := config.DB()
-	result := db.First(&booking, BookingID)
+	result := db.First(&bookingEquipmenting, BookingEquipmentID)
 	if result.Error != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "id not found"})
 		return
 	}
 
-	if err := c.ShouldBindJSON(&booking); err != nil {
+	if err := c.ShouldBindJSON(&bookingEquipment); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad request, unable to map payload"})
 		return
 	}
 
-	result = db.Save(&booking)
+	result = db.Save(&bookingEquipment)
 	if result.Error != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad request"})
 		return

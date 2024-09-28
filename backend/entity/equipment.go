@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type Class struct {
+type Equipment struct {
 	gorm.Model    
 	EquipmentName string       
 	Deets     string    
@@ -18,6 +18,6 @@ type Class struct {
 	AdminID uint
 	Admin   Admin `gorm:"foriegnKey:AdminID"`
 
-	BookingEquipment []BookingEquipment `gorm:"foreignKey:ClassID"`
+	BookingEquipments []BookingEquipment `gorm:"foreignKey:ClassID"`
 
 } 

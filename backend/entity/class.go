@@ -24,6 +24,6 @@ type Class struct {
 	AdminID uint
 	Admin   Admin `gorm:"foriegnKey:AdminID"`
 
-	Booking []Booking `gorm:"foreignKey:ClassID"`
+	Bookings []Booking `gorm:"foreignKey:ClassID"`
 
 } 

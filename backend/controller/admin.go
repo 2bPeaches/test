@@ -3,8 +3,8 @@ package controller
 import (
 	"net/http"
 	"github.com/gin-gonic/gin"
-	"backend/entity"
-	"backend/config"
+	"example.com/pj2/entity"
+	"example.com/pj2/config"
 
 )
 
@@ -33,11 +33,11 @@ func CreateAdmin(c *gin.Context) {
 
 	// สร้าง Member
 	m := entity.Admin{
-		FirstName: admin.FirstName, // ตั้งค่าฟิลด์ FirstName
-		LastName:  admin.LastName,  // ตั้งค่าฟิลด์ LastName
+		Firstname: admin.Firstname, // ตั้งค่าฟิลด์ FirstName
+		Lastname:  admin.Lastname,  // ตั้งค่าฟิลด์ LastName
 		Email:     admin.Email,     // ตั้งค่าฟิลด์ Email
 		Password:  hashedPassword1,
-		UserName: admin.UserName,
+		Username: admin.Username,
 		GenderID:  admin.GenderID,
 		Gender:    genders, // โยงความสัมพันธ์กับ Entity Gender
 	}
@@ -54,7 +54,7 @@ func CreateAdmin(c *gin.Context) {
 // GET /admin/:id
 func GetAdmin(c *gin.Context) {
 	ID := c.Param("id")
-	var admin entity.Member
+	var admin entity.Admin
 
 	db := config.DB()
 	results := db.Preload("Gender").First(&admin, ID)
@@ -69,7 +69,7 @@ func GetAdmin(c *gin.Context) {
 	c.JSON(http.StatusOK, admin)
 }
 
-// GET /users
+// GET /admins
 func ListAdmins(c *gin.Context) {
 
 	var admins []entity.Admin
@@ -83,12 +83,12 @@ func ListAdmins(c *gin.Context) {
 	c.JSON(http.StatusOK, admins)
 }
 
-// DELETE /users/:id
+// DELETE /admins/:id
 func DeleteAdmin(c *gin.Context) {
 
 	id := c.Param("id")
 	db := config.DB()
-	if tx := db.Exec("DELETE FROM users WHERE id = ?", id); tx.RowsAffected == 0 {
+	if tx := db.Exec("DELETE FROM admins WHERE id = ?", id); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "id not found"})
 		return
 	}
@@ -96,9 +96,9 @@ func DeleteAdmin(c *gin.Context) {
 
 }
 
-// PATCH /users
+// PATCH /admins
 func UpdateAdmin(c *gin.Context) {
-	var admin entity.Member
+	var admin entity.Admin
 
 	AdminID := c.Param("id")
 
@@ -122,3 +122,26 @@ func UpdateAdmin(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Updated successful"})
 }
+func CountStaffs(c *gin.Context) {
+    var adminCount int64
+    var trainerCount int64
+
+    db := config.DB()
+
+    // Count admins
+    if err := db.Model(&entity.Admin{}).Count(&adminCount).Error; err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+
+    // Count trainers
+    if err := db.Model(&entity.Trainer{}).Count(&trainerCount).Error; err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+
+    // Total count
+    totalCount := adminCount + trainerCount
+    c.JSON(http.StatusOK, gin.H{"count": totalCount})
+}
+

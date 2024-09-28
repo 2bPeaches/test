@@ -3,8 +3,8 @@ package controller
 import (
 	"net/http"
 	"github.com/gin-gonic/gin"
-	"backend/entity"
-	"backend/config"
+	"example.com/pj2/entity"
+	"example.com/pj2/config"
 
 )
 func ListGenders(c *gin.Context) {
