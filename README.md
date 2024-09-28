@@ -27,3 +27,10 @@ service/https
 +bookingequipment
 +equipment
 
+
+App.tsx เพิ่ม import
+EquipmentBooking
+
+EquipmentCreate
+EditEquipment
+Equipment
