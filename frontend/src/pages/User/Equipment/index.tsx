@@ -15,8 +15,8 @@ interface EquipmentData {
   ID: number;
   Name: string;
   Description: string;
-  DateAvailable: string;
-  TimeAvailable: string;
+  StartDate: string;
+  EndDate: string;
   EquipmentPic: string;
 }
 
@@ -43,8 +43,8 @@ const EquipmentBooking: React.FC = () => {
     id: equipmentData.ID,
     name: equipmentData.Name,
     description: equipmentData.Description,
-    date: equipmentData.DateAvailable,
-    time: equipmentData.TimeAvailable,
+    date: equipmentData.StartDate,
+    time: equipmentData.EndDate,
     image: equipmentData.EquipmentPic,
     // You can add other properties as needed
   });
