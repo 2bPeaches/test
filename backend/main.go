@@ -81,7 +81,7 @@ func main() {
 		router.PATCH("/equipments", controller.UpdateEquipment)
 		router.DELETE("/equipments/:id", controller.DeleteEquipment)
 		router.GET("/equipments/count", controller.CountEquipments)
-		// Booking equip
+		// Bookingequip
 		router.GET("/bookingequipments", controller.ListBookingEquipments)
 		router.GET("/bookingequipment/:id", controller.GetBookingEquipment)
 		router.POST("/bookingequipments", controller.CreateBookingEquipment)

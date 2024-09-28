@@ -5,7 +5,7 @@ import (
 
 	"strings"
 
-	"example.com/pj2/services"
+	"backend/services"
 
 	"github.com/gin-gonic/gin"
 )

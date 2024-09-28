@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { BookingEquipmentInterface } from "../../interface/IBookingEquipment";
-import { CreateEquipmentBooking, DeleteEquipmentBookingID } from "../../service/https/bookingequipment";
+import { CreateBookingEquipment, DeleteBookingEquipmentID } from "../../service/https/bookingequipment";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -49,7 +49,7 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment }) => {
 
     setLoading(true);
     try {
-      const response = await CreateEquipmentBooking(data);
+      const response = await CreateBookingEquipment(data);
       console.log("API response:", response);
 
       if (response) {
@@ -81,7 +81,7 @@ const EquipmentCard: React.FC<EquipmentCardProps> = ({ equipment }) => {
     if (hasBooked) {
       setLoading(true);
       try {
-        const response = await DeleteEquipmentBookingID(id);
+        const response = await DeleteBookingEquipmentID(id);
         console.log("API response:", response);
 
         if (response) {
