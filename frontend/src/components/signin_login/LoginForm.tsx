@@ -116,4 +116,73 @@ const LoginForm: React.FC = () => {
     );
 };
 
-export default LoginForm;
+export default ข้อความจากรูปภาพ:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	2.	เปลี่ยนโหมดไฟล์ id_rsa เป็น 600 ด้วยคำสั่ง
+chmod 600 ~/.ssh/id_rsa
+	3.	ทำการ clone Git repository ของทีมตนเองจาก GitHub ด้วยคำสั่ง เช่น
+git clone git@github.com:sut67/team00.git
+
+จะเป็นของกลุ่ม G00 แล้วจะได้ directory เช่น team00 โดยจะทำการเปลี่ยน directory ไปที่ team00 ก่อนที่จะทำงานกับ code ด้วยคำสั่ง
+cd team00
+	4.	ตรวจสอบว่าเรายังอยู่ที่ main branch ของ Git repository หรือไม่ ด้วยคำสั่ง
+git status
+
+ถ้าไม่ใช่ทำการเปลี่ยน branch ให้เป็น main branch ก่อน ด้วยคำสั่ง
+git checkout main
+	5.	สร้าง branch ใหม่โดยตั้งต้นจาก main branch ให้มีชื่อ issue-<หมายเลข>
+ด้วยคำสั่ง
+git checkout -b issue-9
+
+เนื่องจากตัวอย่างเป็นการทำงานเพื่อเขียนโค้ดให้ Issue #9
+	6.	เขียนโค้ดและเพิ่มหรือลบไฟล์เข้า repository ด้วยคำสั่ง
+git add <ไฟล์>
+หรือ
+git rm <ไฟล์>
+	7.	ทำการ commit ด้วยข้อความ และลงท้ายด้วย close #<หมายเลข> เช่น
+git commit -m "ทำ Entity Playlist - close #9"
+
+โดยเป็นการ commit ส่งไปยัง branch ชื่อ issue-9 (ไม่ใช่การ commit ลง main branch)
+	8.	อัปเดต main branch โดยการ merge โค้ดจาก branch issue-9 ไปยัง branch main โดนตรวจสอบว่าโค้ดใน branch main ตรงกับ GitHub โดยใช้คำสั่ง
+git remote update : ดึงโค้ดลงมาไว้เบื้องหลัง
+git rebase origin/main : ปรับฐาน issue-9 ให้ตรงกับ remote บน GitHub
+
+สลับมาที่ main branch:
+git checkout main
+
+ทำการ merge issue-9 เข้าสู่ main:
+git merge issue-9 --no-ff
+
+จากนั้น push:
+git push origin main
+
+กรณี push ไม่ขึ้น (เช่น มีการเปลี่ยนแปลงใหม่ที่ remote):
+	1.	ใช้คำสั่ง
+
+git remote update
+git rebase origin/main
+
+
+	2.	ลอง push ซ้ำด้วยคำสั่ง
+
+git push origin main
